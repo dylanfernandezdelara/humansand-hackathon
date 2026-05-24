@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
     const exchangeCount = messages.filter((m) => m.role === "student").length;
 
     const { text: aiResponse } = await generateText({
-      model: openrouter("google/gemini-3-flash-preview"),
+      model: openrouter("openrouter/free"),
       system: `You are a relaxed but professional AI Teaching Assistant doing a quick 1-on-1 check-in with a student. You want to map what they understand and what's fuzzy -- nothing more.
 
 RULES:
