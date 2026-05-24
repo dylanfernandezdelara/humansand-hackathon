@@ -1,5 +1,7 @@
 # Learn&
 
+> **Fork note:** This repo is a fork of [KennyKeni/humansand-hackathon](https://github.com/KennyKeni/humansand-hackathon), maintained by Dylan Fernandez de Lara so it can be hosted independently (Cloudflare, Convex, and related services). The live demo at [valedictorian.app](https://valedictorian.app) is the upstream project, not this deployment.
+
 AI-powered collaborative learning platform where a professor teaches on a shared whiteboard, and an AI agent monitors comprehension, dynamically pairs students into complementary study groups, and facilitates peer learning -- all in real time.
 
 **Live demo: [valedictorian.app](https://valedictorian.app)** (uses OpenRouter free tier, so model quality will be poor)
