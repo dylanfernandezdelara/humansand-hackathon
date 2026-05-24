@@ -1,0 +1,25 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "learn-and",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2025-12-01",
+  "compatibility_flags": [
+    "nodejs_compat",
+    "nodejs_compat_populate_process_env",
+    "global_fetch_strictly_public"
+  ],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "learn-and"
+    }
+  ],
+  "vars": {
+    "NEXT_PUBLIC_CONVEX_URL": "https://usable-badger-650.convex.cloud",
+    "NEXT_PUBLIC_CONVEX_SITE_URL": "https://usable-badger-650.convex.site"
+  }
+}

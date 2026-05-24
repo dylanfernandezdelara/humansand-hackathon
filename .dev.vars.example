@@ -1,0 +1,5 @@
+# Copy to .dev.vars for `npm run preview` (local Workers runtime).
+# Do not commit .dev.vars — it may contain secrets.
+
+NEXTJS_ENV=development
+OPENROUTER_API_KEY=
