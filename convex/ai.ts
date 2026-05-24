@@ -250,7 +250,7 @@ export const updateDiagram = internalAction({
 
     try {
       const { object: result } = await generateObject({
-        model: openrouter("google/gemini-3-flash-preview"),
+        model: openrouter("openrouter/free"),
         schema: diagramSchema,
         prompt: `You are a visual learning assistant. Based on the group conversation, maintain a simple diagram that helps illustrate the concept being discussed.
 
@@ -363,7 +363,7 @@ export const evaluateGroupChat = internalAction({
 
     try {
       const { object: evaluation } = await generateObject({
-        model: openrouter("google/gemini-3-flash-preview"),
+        model: openrouter("openrouter/free"),
         schema: evalSchema,
         prompt: `You are a fellow student in a peer study group, NOT a teacher or tutor. You're reviewing the recent conversation to decide if you should chime in.
 
@@ -481,7 +481,7 @@ export const summarizeGroup = internalAction({
       ].map(([id, name]) => ({ userId: id as string, name: name as string }));
 
       const { object: summary } = await generateObject({
-        model: openrouter("google/gemini-3-flash-preview"),
+        model: openrouter("openrouter/free"),
         maxRetries: 3,
         schema: summarySchema,
         prompt: `You are an AI teaching assistant analyzing a student group discussion.
