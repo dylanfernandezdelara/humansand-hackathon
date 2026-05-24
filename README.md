@@ -1,9 +1,8 @@
 # Learn&
 
-**Live app:** [https://learn-and.fernandezdelaradylan.workers.dev](https://learn-and.fernandezdelaradylan.workers.dev)  
-**Convex backend:** [dashboard](https://dashboard.convex.dev/d/usable-badger-650) (`humansand-hackathon` on team `dylan-fernandez-de-lara`)
+**Live app:** [https://learn-and.fernandezdelaradylan.workers.dev](https://learn-and.fernandezdelaradylan.workers.dev)
 
-> Forked from [KennyKeni/humansand-hackathon](https://github.com/KennyKeni/humansand-hackathon) for independent hosting. This deployment uses **your** Cloudflare Workers frontend and **your** Convex project only.
+> Forked from [KennyKeni/humansand-hackathon](https://github.com/KennyKeni/humansand-hackathon) for independent hosting on Cloudflare + Convex.
 
 AI-powered collaborative learning platform where a professor teaches on a shared whiteboard, and an AI agent monitors comprehension, dynamically pairs students into complementary study groups, and facilitates peer learning -- all in real time.
 
@@ -19,7 +18,7 @@ AI-powered collaborative learning platform where a professor teaches on a shared
 
 - **Hosting**: [Cloudflare Workers](https://developers.cloudflare.com/workers/) (`learn-and.fernandezdelaradylan.workers.dev`)
 - **Framework**: Next.js (App Router) via [OpenNext](https://opennext.js.org/cloudflare)
-- **Backend/DB**: [Convex](https://convex.dev) — `usable-badger-650.convex.cloud`
+- **Backend/DB**: [Convex](https://convex.dev)
 - **Auth**: Convex Auth (anonymous sign-in with display name)
 - **Whiteboard**: Excalidraw (collaborative, real-time sync)
 - **AI**: [OpenRouter](https://openrouter.ai) — model **`openrouter/free`** (free tier only)
@@ -29,7 +28,7 @@ AI-powered collaborative learning platform where a professor teaches on a shared
 ## Prerequisites
 
 - Node.js 18+
-- [Convex](https://convex.dev) account (this repo uses deployment `usable-badger-650`)
+- [Convex](https://convex.dev) account (linked via `.env.local`; see [`.env.example`](./.env.example))
 - [OpenRouter](https://openrouter.ai) API key
 - [Cloudflare](https://cloudflare.com) account (for redeploys; Wrangler is in devDependencies)
 
@@ -54,9 +53,9 @@ Open [http://localhost:3000](http://localhost:3000).
 
 | Variable | Where | Purpose |
 |----------|--------|---------|
-| `CONVEX_DEPLOYMENT` | `.env.local` | `dev:usable-badger-650` (set by `npx convex dev`) |
-| `NEXT_PUBLIC_CONVEX_URL` | `.env.local` | `https://usable-badger-650.convex.cloud` |
-| `NEXT_PUBLIC_CONVEX_SITE_URL` | `.env.local` | `https://usable-badger-650.convex.site` |
+| `CONVEX_DEPLOYMENT` | `.env.local` | Set by `npx convex dev` |
+| `NEXT_PUBLIC_CONVEX_URL` | `.env.local` | Convex API (public; also in client bundle) |
+| `NEXT_PUBLIC_CONVEX_SITE_URL` | `.env.local` | Convex auth HTTP |
 | `OPENROUTER_API_KEY` | `.env.local` | Next.js API routes |
 | `OPENROUTER_API_KEY` | Convex (`npx convex env set`) | `convex/ai.ts` actions |
 
@@ -84,8 +83,7 @@ npx wrangler secret put OPENROUTER_API_KEY
 npm run deploy
 ```
 
-Production URL: **https://learn-and.fernandezdelaradylan.workers.dev**  
-(`wrangler.jsonc` already sets `NEXT_PUBLIC_CONVEX_*` for `usable-badger-650`.)
+Production URL: **https://learn-and.fernandezdelaradylan.workers.dev**
 
 ### 3. Preview locally (Workers runtime)
 
