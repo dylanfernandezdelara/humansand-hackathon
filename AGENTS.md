@@ -6,7 +6,7 @@
 
 - **Live app:** https://learn-and.fernandezdelaradylan.workers.dev (Cloudflare Workers)
 - **Convex:** https://usable-badger-650.convex.cloud (deployment `usable-badger-650`, team `dylan-fernandez-de-lara`)
-- **Do not** use Kenny's Convex deployment or valedictorian.app
+- **Do not** use the upstream team's Convex deployment or live site
 
 AI-powered collaborative learning platform where a professor teaches on a shared whiteboard, and an AI agent monitors comprehension, dynamically pairs students into complementary study groups, and facilitates peer learning — all in real time.
 
