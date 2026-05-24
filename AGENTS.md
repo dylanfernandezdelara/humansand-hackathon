@@ -2,17 +2,22 @@
 
 ## Project Overview
 
-**This is a hackathon project. Prioritize speed and working demos over polish. Cut corners where reasonable, skip unnecessary abstractions, and focus on getting features functional end-to-end.**
+**Fork of humansand-hackathon — hosted independently by Dylan Fernandez de Lara.**
+
+- **Live app:** https://learn-and.fernandezdelaradylan.workers.dev (Cloudflare Workers)
+- **Convex:** https://usable-badger-650.convex.cloud (deployment `usable-badger-650`, team `dylan-fernandez-de-lara`)
+- **Do not** use Kenny's Convex deployment or valedictorian.app
 
 AI-powered collaborative learning platform where a professor teaches on a shared whiteboard, and an AI agent monitors comprehension, dynamically pairs students into complementary study groups, and facilitates peer learning — all in real time.
 
 ## Tech Stack
 
+- **Hosting**: Cloudflare Workers (OpenNext)
 - **Framework**: Next.js (App Router)
 - **Backend/DB**: Convex (real-time queries, mutations, actions)
 - **Auth**: Convex Auth (Anonymous + display name)
 - **Whiteboard**: Excalidraw (embedded, professor-controlled)
-- **AI**: Anthropic Claude API (via Convex Actions)
+- **AI**: OpenRouter `openrouter/free` (Next.js API routes + Convex actions)
 - **Styling**: Tailwind CSS + shadcn/ui
 - **Language**: TypeScript throughout
 
@@ -41,8 +46,9 @@ AI-powered collaborative learning platform where a professor teaches on a shared
 
 ## Auth Strategy
 
-- Current branch (`kenny/group-chat`): anonymous sign-in with display name capture for fast session entry.
-- Role policy for this branch: session creator is professor, joiners are students.
+- Anonymous sign-in with display name capture for fast session entry.
+- Role policy: session creator is professor, joiners are students.
+- Convex `SITE_URL` must be `https://learn-and.fernandezdelaradylan.workers.dev` for production auth redirects.
 - No OAuth planned for this project.
 
 ## Core Concepts
@@ -165,9 +171,10 @@ npm run dev             # Start Next.js dev server
 ## Environment Variables
 
 ```env
-CONVEX_DEPLOYMENT=      # Auto-set by `npx convex dev`
-NEXT_PUBLIC_CONVEX_URL= # Auto-set by `npx convex dev`
-ANTHROPIC_API_KEY=      # For AI actions
+CONVEX_DEPLOYMENT=dev:usable-badger-650
+NEXT_PUBLIC_CONVEX_URL=https://usable-badger-650.convex.cloud
+NEXT_PUBLIC_CONVEX_SITE_URL=https://usable-badger-650.convex.site
+OPENROUTER_API_KEY=     # .env.local and `npx convex env set`
 ```
 
 ## Hackathon Priorities

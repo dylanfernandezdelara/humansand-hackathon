@@ -1,8 +1,9 @@
 # Learn&
 
-> **Fork note:** This repo is a fork of [KennyKeni/humansand-hackathon](https://github.com/KennyKeni/humansand-hackathon), maintained by Dylan Fernandez de Lara for independent hosting on **Cloudflare Workers** (frontend) and **Convex** (backend). The upstream demo at [valedictorian.app](https://valedictorian.app) is a separate deployment.
+**Live app:** [https://learn-and.fernandezdelaradylan.workers.dev](https://learn-and.fernandezdelaradylan.workers.dev)  
+**Convex backend:** [dashboard](https://dashboard.convex.dev/d/usable-badger-650) (`humansand-hackathon` on team `dylan-fernandez-de-lara`)
 
-**Production (this fork):** [https://learn-and.fernandezdelaradylan.workers.dev](https://learn-and.fernandezdelaradylan.workers.dev) — hosted on Cloudflare Workers; backend on Convex (`usable-badger-650`).
+> Forked from [KennyKeni/humansand-hackathon](https://github.com/KennyKeni/humansand-hackathon) for independent hosting. This deployment uses **your** Cloudflare Workers frontend and **your** Convex project only.
 
 AI-powered collaborative learning platform where a professor teaches on a shared whiteboard, and an AI agent monitors comprehension, dynamically pairs students into complementary study groups, and facilitates peer learning -- all in real time.
 
@@ -16,27 +17,28 @@ AI-powered collaborative learning platform where a professor teaches on a shared
 
 ## Tech Stack
 
-- **Framework**: Next.js (App Router), deployed via [OpenNext](https://opennext.js.org/cloudflare) on **Cloudflare Workers**
-- **Backend/DB**: [Convex](https://convex.dev) (real-time queries, mutations, actions)
+- **Hosting**: [Cloudflare Workers](https://developers.cloudflare.com/workers/) (`learn-and.fernandezdelaradylan.workers.dev`)
+- **Framework**: Next.js (App Router) via [OpenNext](https://opennext.js.org/cloudflare)
+- **Backend/DB**: [Convex](https://convex.dev) — `usable-badger-650.convex.cloud`
 - **Auth**: Convex Auth (anonymous sign-in with display name)
 - **Whiteboard**: Excalidraw (collaborative, real-time sync)
-- **AI**: [OpenRouter](https://openrouter.ai) via Vercel AI SDK — model **`openrouter/free`** (no paid model calls)
+- **AI**: [OpenRouter](https://openrouter.ai) — model **`openrouter/free`** (free tier only)
 - **Styling**: Tailwind CSS + shadcn/ui
 - **Language**: TypeScript
 
 ## Prerequisites
 
 - Node.js 18+
-- A [Convex](https://convex.dev) account (your own team/project — not shared with upstream)
-- An [OpenRouter](https://openrouter.ai) API key
-- A [Cloudflare](https://cloudflare.com) account with Wrangler CLI (`npm install -g wrangler` or use the project devDependency)
+- [Convex](https://convex.dev) account (this repo uses deployment `usable-badger-650`)
+- [OpenRouter](https://openrouter.ai) API key
+- [Cloudflare](https://cloudflare.com) account (for redeploys; Wrangler is in devDependencies)
 
 ## Local development
 
 ```bash
 npm install
 cp .env.example .env.local
-# Fill in OPENROUTER_API_KEY and run once:
+# Add OPENROUTER_API_KEY, then link Convex (once):
 npx convex dev
 ```
 
@@ -52,9 +54,9 @@ Open [http://localhost:3000](http://localhost:3000).
 
 | Variable | Where | Purpose |
 |----------|--------|---------|
-| `CONVEX_DEPLOYMENT` | `.env.local` | Set by `npx convex dev` |
-| `NEXT_PUBLIC_CONVEX_URL` | `.env.local` | Convex HTTP API |
-| `NEXT_PUBLIC_CONVEX_SITE_URL` | `.env.local` | Convex site / auth HTTP |
+| `CONVEX_DEPLOYMENT` | `.env.local` | `dev:usable-badger-650` (set by `npx convex dev`) |
+| `NEXT_PUBLIC_CONVEX_URL` | `.env.local` | `https://usable-badger-650.convex.cloud` |
+| `NEXT_PUBLIC_CONVEX_SITE_URL` | `.env.local` | `https://usable-badger-650.convex.site` |
 | `OPENROUTER_API_KEY` | `.env.local` | Next.js API routes |
 | `OPENROUTER_API_KEY` | Convex (`npx convex env set`) | `convex/ai.ts` actions |
 
@@ -62,61 +64,50 @@ Copy from [`.env.example`](./.env.example). Never commit `.env.local`.
 
 ## Deploy to Cloudflare Workers
 
-This app uses `@opennextjs/cloudflare`. Convex stays on Convex Cloud; only the Next.js app runs on Workers.
+Frontend only; Convex stays on Convex Cloud.
 
-### 1. Convex (one-time per deployment)
+### 1. Convex
 
 ```bash
 npx convex dev --once
-npx @convex-dev/auth --web-server-url https://YOUR-WORKERS-URL --allow-dirty-git-state
-```
-
-Set secrets on **your** Convex deployment:
-
-```bash
+npx convex env set SITE_URL https://learn-and.fernandezdelaradylan.workers.dev
 npx convex env set OPENROUTER_API_KEY your-key-here
-npx convex env set SITE_URL https://YOUR-WORKERS-URL
 ```
 
-`SITE_URL` must match your public Cloudflare URL (required for Convex Auth redirects).
+Auth keys (`JWT_*`, `JWKS`) are already on this deployment if you ran `@convex-dev/auth` setup earlier.
 
-Update `wrangler.jsonc` `vars` with your `NEXT_PUBLIC_CONVEX_*` URLs if they differ from the template.
-
-### 2. Cloudflare secrets
+### 2. Cloudflare
 
 ```bash
 npx wrangler login
 npx wrangler secret put OPENROUTER_API_KEY
-```
-
-### 3. Build and deploy
-
-```bash
 npm run deploy
 ```
 
-Wrangler prints your `*.workers.dev` URL. Set that URL as Convex `SITE_URL` (step 1) if you have not already.
+Production URL: **https://learn-and.fernandezdelaradylan.workers.dev**  
+(`wrangler.jsonc` already sets `NEXT_PUBLIC_CONVEX_*` for `usable-badger-650`.)
 
-### 4. Preview locally (Workers runtime)
+### 3. Preview locally (Workers runtime)
 
 ```bash
 cp .dev.vars.example .dev.vars
-# Add OPENROUTER_API_KEY to .dev.vars
+# Add OPENROUTER_API_KEY
 npm run preview
 ```
 
 ## AI model (free tier)
 
-All LLM calls use **`openrouter/free`** (OpenRouter’s free router). Do not switch to paid model IDs (e.g. `google/gemini-3-flash-preview`) unless you intend to pay.
+All LLM calls use **`openrouter/free`**. Do not switch to paid model IDs unless you intend to pay.
 
 ## Usage
 
-1. Enter your name on the landing page
-2. Create a new session from the lobby (you become the professor/creator)
-3. Share the session code with students
-4. Start teaching -- draw on the whiteboard, then hit "Check-In" to synthesize and probe students
-5. AI matches students into complementary groups automatically
-6. Monitor group discussions and view AI-generated summaries
+1. Open [the live app](https://learn-and.fernandezdelaradylan.workers.dev) or run locally
+2. Enter your name on the landing page
+3. Create a new session from the lobby (you become the professor/creator)
+4. Share the session code with students
+5. Start teaching -- draw on the whiteboard, then hit "Check-In" to synthesize and probe students
+6. AI matches students into complementary groups automatically
+7. Monitor group discussions and view AI-generated summaries
 
 ## License
 
